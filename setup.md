@@ -40,4 +40,4 @@ Following this tutorial: https://napari.org/stable/tutorials/fundamentals/instal
 conda activate napari-env
 python -m pip install "napari[all]"
 python -m pip install "napari[all]" --upgrade
-napari```
+napari
