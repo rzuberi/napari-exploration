@@ -33,3 +33,11 @@ Following this tutorial: https://napari.org/stable/tutorials/fundamentals/instal
 
 ## Troubleshooting on Mac
 (I haven't yet tried installing it on my Mac, but I will and get back to this document)
+
+## Quickstart on Windows
+
+```conda create -y -n napari-env -c conda-forge python=3.9
+conda activate napari-env
+python -m pip install "napari[all]"
+python -m pip install "napari[all]" --upgrade
+napari```
