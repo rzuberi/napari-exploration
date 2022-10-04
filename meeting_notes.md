@@ -1,7 +1,9 @@
 This is where I am leaving the meeting notes that I took for my 3rd year project, for now.
 
 Wednesday 21/09/2022 16h30-17h30:
+
 Attendees: Dr Ivor Simpson, Dr Helfrid Hochegger, Rehan Zuberi
+
 Location: Zoom meeting
 
 - Mostly used TrackMate which is written in Java
@@ -44,7 +46,9 @@ Location: Zoom meeting
 	- //Build a soft threshold as Ivor suggested
 
 Wednesday 28/09/2022 16h00-17h00:
+
 Attendees: Dr Ivor Simpson, Dr Helfrid Hochegger, Ryan, Rehan Zuberi
+
 Location: Zoom meeting
 
 - Ryan talked about his project, the augmentation of the data and the features he was collecting off the cells right now
