@@ -9,3 +9,8 @@ Thursday 28/09/2022
 Monday 03/10/2022
 - I ran into some issues while trying to install napari and run it on the Windows Chichester lab computers, but now it is installed and running and I documented how to do it and avoid the issues I had and how I solved them on the "setup.md" file in this project.
 - I followed the tutorial from Napari to create a very basic Napari plugin and then how to do it with cookiecutter (which creates a template for you) and I documented one issue I had (not having installed git before installing cookiecutter with pip) and its solution in the "plugin_creation.md" file in this project.
+
+Tuesday 04/10/2022
+- I quickly setup Napari on a new Windows computer and made a little correction the the "quick setup" commands, adding the command that pip installs the missing "imageio_ffmpeg" package.
+- I read Ivor's email on some thoughts and guidance on the group meetings he will be hosting for his group of 3rd year projects (which I am apart of). I read [this blog on training neural networks](http://karpathy.github.io/2019/04/25/recipe/) that he recommended in his email.
+- I need to get Omero installed on these computers!!!
