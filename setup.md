@@ -43,4 +43,5 @@ python -m pip install "napari[all]"
 python -m pip install "napari[all]" --upgrade
 pip install imageio_ffmpeg
 napari
+
 ```
