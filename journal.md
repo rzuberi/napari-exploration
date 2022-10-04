@@ -13,4 +13,6 @@ Monday 03/10/2022
 Tuesday 04/10/2022
 - I quickly setup Napari on a new Windows computer and made a little correction the the "quick setup" commands, adding the command that pip installs the missing "imageio_ffmpeg" package.
 - I read Ivor's email on some thoughts and guidance on the group meetings he will be hosting for his group of 3rd year projects (which I am apart of). I read [this blog on training neural networks](http://karpathy.github.io/2019/04/25/recipe/) that he recommended in his email.
-- I need to get Omero installed on these computers!!!
+- I sent a ticket to the IT department (because Luke Igerson is sick these days) about getting GlobalProtect installed on every computer.
+- I started looking at the available Napari plugins and will start evaluating some of them, with a note inside of this project that keeps track of my review. This will probably be when GlobalProtect will be installed so I can do a quick check with some Omero data of how they work. I will probably spend a few hours testing a few of them.
+- Importantly, I need to make a Napari plugin for tomorrow that just measures the size of cells (or their mask from CellPose2 really) that I can show to Ivor and Helfrid to show what I've learned about Napari and how I will be using it. I also need to write a quick document that shows what my objectives will be for this project.
