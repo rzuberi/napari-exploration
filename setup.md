@@ -42,4 +42,5 @@ conda activate napari-env
 python -m pip install "napari[all]"
 python -m pip install "napari[all]" --upgrade
 napari
+
 ```
