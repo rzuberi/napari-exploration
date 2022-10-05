@@ -59,3 +59,16 @@ Location: Zoom meeting
 - I offered to present Napari and do a demonstration to Helfrid's lab and he strongly agreed
 - Ivor asked me to start sketching a plan for what my dissertation will look like. I need to write that, I'll probably make a document with images and a straightforward Gant plan. I said I imagined my dissertation to offer the classification and tracking trainable models from only one cell marker as Napari plugins.
 - Helfrid is confident about the project and having me until May to complete a lot of this.
+
+
+Wednesday 05/10/2022 16h00-16h50:
+
+Attendees: Dr Ivor Simpson, Ryan, Rehan Zuberi
+
+Location: Zoom meeting
+
+- Ryan talked about his project. He is introducing soft labels and talked about where to cut from the DNA content to separate cells in classes. He showed his code for his Variational Auto Encoder just to explain his layers. He showed for the M-phase DAPI the predicted results. He talked about the BCE loss (which is a loss for a binary classifier) and Ivor explained that for a multi class problem it does not work here, he is better off using the softmax function. For regression roblems (since here Ryan is trying to rebuild the data) he can't use a binary function, Ivor explains. Ivor proposed the multiclass [cross entropy loss](https://pytorch.org/docs/stable/generated/torch.nn.CrossEntropyLoss.html) and the [MSE loss](https://pytorch.org/docs/stable/generated/torch.nn.MSELoss.html#torch.nn.MSELoss). Maybe PyTorch is doing something smart under the hood with the binary classifier and turning it into a multi class, but still it is better to change to a categorical one.
+- I briefly talked about my project and how I have been discovering Napari (how it works under the hood, how to integrate plugins)
+- Helfrid said the following (basically that if Napari can use video then we can use gained information from sequential frames to improve the information tracked on other frames):
+    - Use tracking to improve the segmentation and classification because we can aggregate information across frames. Having multiple frames, we can segment them on the two different frames to get less noise. Pixel wise tracking or deform the frame before and the frame after so we can look and draw on the extra frames to assist the tracking of one. We could also have three output tracking inforation and we just pass the information, it should be able to draw on the segmentation performance. Same as for classification, we can think about the cycle. We can then feedback information about the classifier. Thinking about how we can track and also improve the tasks we want to do, we want to track the size of cells oer time but if we can improve the other tracking features with that.
+- Ryan asked a question again which was on the DAPI labelling and then the meeting ended.
