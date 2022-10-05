@@ -1,0 +1,2 @@
+[napari.manifest]
+napari-cellSizeTrack = napari_cellsizetrack:napari.yaml
