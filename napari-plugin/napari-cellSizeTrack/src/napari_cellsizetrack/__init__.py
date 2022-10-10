@@ -11,5 +11,5 @@ __all__ = (
     "write_multiple",
     "make_sample_data",
     "ExampleQWidget",
-    #"example_magic_widget",
+    "example_magic_widget",
 )
