@@ -15,6 +15,7 @@ src/napari_cellsizetrack/_sample_data.py
 src/napari_cellsizetrack/_widget.py
 src/napari_cellsizetrack/_writer.py
 src/napari_cellsizetrack/napari.yaml
+src/napari_cellsizetrack/testing_events.py
 src/napari_cellsizetrack/_tests/__init__.py
 src/napari_cellsizetrack/_tests/test_reader.py
 src/napari_cellsizetrack/_tests/test_sample_data.py
