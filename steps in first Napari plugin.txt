@@ -1,0 +1,15 @@
+- So I first want to make my plugin able to read the layers and print their names DONE
+- Then I want it to offer a dropdown menu to choose the segmentation layer DONE
+- Then I want it to print the count all of the pixels on that segmented layer (the coloured ones) DONE
+- Then I want it to print the individual count of all cell masks (for each color: a count) DONE
+- Then I want it to average out that number to give the average size of each DONE
+
+Extensions:
+- hover over cells to give their size (in number of pixels)
+	- add a tooltip so that instead of being printed in the console or anotehr window it is show in a window
+		next to the mouse!
+- create a mask on the original image of only a certain labelled cells (maybe even from hovered)
+- click on a few cells to select them and create a mask just from those
+- extract shape information of cells
+- get information from a series of images
+- match cells on different images
