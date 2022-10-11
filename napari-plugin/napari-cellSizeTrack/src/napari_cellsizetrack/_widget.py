@@ -19,9 +19,12 @@ from napari.types import ImageData
 from magicgui import magic_factory
 import numpy as np
 from psygnal import EventedModel
+from PyQt5.QtCore import QPoint
 from qtpy.QtWidgets import QHBoxLayout, QPushButton, QWidget, QToolTip
 
 from napari.settings import get_settings
+
+import pyautogui
 
 from napari.utils.events import Event
 
@@ -75,7 +78,8 @@ class ExampleQWidget(QWidget):
         self.layout().addWidget(btn)
 
         layer = viewer.layers.selection.active
-
+        
+        self.setMouseTracking(True)
         
 
         #w1 = ComboBox(choices=choices, value='two', label='ComboBox:')
@@ -88,17 +92,62 @@ class ExampleQWidget(QWidget):
         print("ffffffffffffffffffff")
 
     @viewer.mouse_move_callbacks.append
-    def update_layer(layer, event):
+    def update_layer(self, event):
+        print('eventxxx',event)
         #layer.data = np.random.random((512, 512))
         #print(event.pos)
-        layer = viewer.layers.selection.active
-        x_coor = round(layer.world_to_data(viewer.cursor.position)[0])
-        y_coor = round(layer.world_to_data(viewer.cursor.position)[1])
-        print(x_coor,y_coor)
+        #layer = viewer.layers.selection.active
+        x_coor = round(viewer.cursor.position[0])
+        y_coor = round(viewer.cursor.position[1])
 
-        print(viewer.layers.selection)
+        #We first need to find the layer so we loop through all the layers in the viewer
+        for lay_it in viewer.layers:
+            #We only want the layers that are label layers since that's what we want to display
+            if str(type(lay_it)) == "<class 'napari.layers.labels.labels.Labels'>":
+                #If the layer is of type label AND that it is the one currently selected
+                if lay_it in viewer.layers.selection:
+                    print(x_coor,y_coor) #print the coordinates of the mouse
+                    #print('mouse track', event.x(), event.y())
+                    print(viewer.layers.selection) #print the name of the currently selected layer
+                    current_layer = lay_it
+                    current_layer_data = current_layer.data #get the data of
+                    if x_coor < 1080 and x_coor > -1 and y_coor < 1080 and y_coor > -1:
+                        cell_mask_number = current_layer.data[x_coor][y_coor]  
+                        if cell_mask_number != 0:
+                            print('data at coordinates (cell mask number)',cell_mask_number)
+                        
+                            #self.x = event.pos().x()
+                            #self.y = event.pos().y()
+                            #p = mapToGlobal(event.pos())
+                            p = QPoint()
+                            #p.setX(x_coor)
+                            #p.setY(y_coor)
+                            p.setX(pyautogui.position()[0])
+                            p.setY(pyautogui.position()[1])
+
+                            #self.x = event.pos().x()
+                            #self.y = event.pos().y()
+
+                            #p = self.mapToGlobal(event.pos())
+
+                            QToolTip.showText(p,str(cell_mask_number))
+
+
+                            #QToolTip.showText(p, x_coor)
+                            #event.setToolTip('sfdfdfds')
+        #make it print at the coordinates
+
+
+            #print('11',lay)
+            #print(type(lay))
+            #print(lay.data)
 
         #get the labels
+        #print(viewer.layers.selection.data)
+        #print(napari.layers.Labels.name)
+        #print(viewer.layers.selection[0])
+
+        #print(napari.layers.Labels[viewer.layers.selection])
 
         #print at those coordinates the current label
 
