@@ -23,12 +23,34 @@ from qtpy.QtWidgets import QHBoxLayout, QPushButton, QWidget, QToolTip
 
 from napari.settings import get_settings
 
+from napari.utils.events import Event
+
 if TYPE_CHECKING:
     import napari
 
 import napari
-viewer = napari.Viewer()
-layer = viewer.add_image(np.random.random((512, 512)))
+viewer = napari.current_viewer()
+#layer = viewer.add_image(np.random.random((512, 512)))
+#layer = viewer.layers.selection
+layer = viewer.layers.selection.active
+
+#def _on_change(event):
+#    layer = viewer.layers.selection
+#    print('layer changed')
+
+#viewer.layers.selection.events.changed(_on_change)
+
+#@viewer.layers.selection.events.changed.connect
+#def change_layer():
+#    layer = viewer.layers.selection.active
+
+#def change_layer_selection(event):
+        #layer = viewer.layers.selection.active
+#        change_layer()
+#        print("layer changed")
+    
+    #viewer.layers.selection.events.changed.connect(change_layer_selection)
+
 
 class ExampleQWidget(QWidget):
     # your QWidget.__init__ can optionally request the napari viewer instance
@@ -52,6 +74,8 @@ class ExampleQWidget(QWidget):
         self.setLayout(QHBoxLayout())
         self.layout().addWidget(btn)
 
+        layer = viewer.layers.selection.active
+
         
 
         #w1 = ComboBox(choices=choices, value='two', label='ComboBox:')
@@ -63,14 +87,22 @@ class ExampleQWidget(QWidget):
     def _func(self, viewer):
         print("ffffffffffffffffffff")
 
-    @layer.mouse_move_callbacks.append
+    @viewer.mouse_move_callbacks.append
     def update_layer(layer, event):
         #layer.data = np.random.random((512, 512))
         #print(event.pos)
-        print(layer.world_to_data(viewer.cursor.position))
-        print(round(layer.world_to_data(viewer.cursor.position)[0]))
-        print(round(layer.world_to_data(viewer.cursor.position)[1]))
-        #print(layer.coordinates)
+        layer = viewer.layers.selection.active
+        x_coor = round(layer.world_to_data(viewer.cursor.position)[0])
+        y_coor = round(layer.world_to_data(viewer.cursor.position)[1])
+        print(x_coor,y_coor)
+
+        print(viewer.layers.selection)
+
+        #get the labels
+
+        #print at those coordinates the current label
+
+    
         
 
 @magic_factory
