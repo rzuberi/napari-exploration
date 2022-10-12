@@ -13,3 +13,4 @@ __all__ = (
     "ExampleQWidget",
     "example_magic_widget",
 )
+
