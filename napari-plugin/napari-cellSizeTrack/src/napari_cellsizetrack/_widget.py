@@ -19,8 +19,10 @@ from napari.types import ImageData
 from magicgui import magic_factory
 import numpy as np
 from psygnal import EventedModel
-from PyQt5.QtCore import QPoint
-from qtpy.QtWidgets import QHBoxLayout, QPushButton, QWidget, QToolTip
+from PyQt5.QtCore import *
+from PyQt5.QtGui import *
+#from PyQt5.QtWidgets import QLabel
+from qtpy.QtWidgets import QHBoxLayout, QVBoxLayout, QPushButton, QWidget, QToolTip, QLabel
 
 from napari.settings import get_settings
 
@@ -70,16 +72,140 @@ class ExampleQWidget(QWidget):
         #QToolTip.setFont(QFont('SansSerif', 10))
         #self.setToolTip('This is a <b>QWidget</b> widget')
 
-        btn = QPushButton("Click me!")
+        #btn = QPushButton("Click me!")
         #btn.setToolTip('This is a <b>QPushButton</b> widget')
         #btn.clicked.connect(self._on_click)
 
-        self.setLayout(QHBoxLayout())
-        self.layout().addWidget(btn)
+        self.l1 = QLabel(self)
+        self.l1.setText("No cell mask selected")
+        #self.l1.setText.connect(viewer.update_layer)
+
+        self.l2 = QLabel(self)
+        self.l2.setText("")
+
+        self.setLayout(QVBoxLayout())
+        #self.layout().addWidget(btn)
+        self.layout().addWidget(self.l1)
+        self.layout().addWidget(self.l2)
 
         layer = viewer.layers.selection.active
         
         self.setMouseTracking(True)
+        
+        @self.viewer.mouse_double_click_callbacks.append
+        def new_layer_from_cells(viewer,event):
+            print('double cicked')
+            x_coor = round(viewer.cursor.position[0])
+            y_coor = round(viewer.cursor.position[1])
+
+            for lay_it in viewer.layers:
+                #We only want the layers that are label layers since that's what we want to display
+                print(str(type(viewer.layers[0])))
+                print(str(type(viewer.layers[1])))
+                if str(type(lay_it)) == "<class 'napari.layers.labels.labels.Labels'>":
+                    #If the layer is of type label AND that it is the one currently selected
+                    if lay_it in viewer.layers.selection:
+                        print(x_coor,y_coor) #print the coordinates of the mouse
+                        #print('mouse track', event.x(), event.y())
+                        print(viewer.layers.selection) #print the name of the currently selected layer
+                        current_layer = lay_it
+                        current_layer_data = current_layer.data #get the data of
+                        if x_coor < 1080 and x_coor > -1 and y_coor < 1080 and y_coor > -1:
+                            cell_mask_number = current_layer.data[x_coor][y_coor]  
+                            if cell_mask_number != 0:
+                                #print('data at coordinates (cell mask number)',cell_mask_number)
+                            
+                                #self.x = event.pos().x()
+                                #self.y = event.pos().y()
+                                #p = mapToGlobal(event.pos())
+                                #p = QPoint()
+                                #p.setX(x_coor)
+                                #p.setY(y_coor)
+                                #p.setX(pyautogui.position()[0])
+                                #p.setY(pyautogui.position()[1])
+
+                                #self.x = event.pos().x()
+                                #self.y = event.pos().y()
+
+                                #p = self.mapToGlobal(event.pos())
+
+                                #QToolTip.showText(p,'Cell mask number: '+str(cell_mask_number))
+                                
+                                #size_of_mask = np.count_nonzero(current_layer.data == cell_mask_number)
+
+                                #ExampleQWidget.set_texts(ExampleQWidget,str(cell_mask_number))
+                                #self.l1.setText('Cell mask number: '+str(cell_mask_number))
+                                #self.l2.setText('Cell mask size (in pixels):'+str(size_of_mask))
+
+                                #just going to crop around the mask
+                                for layer_curr in viewer.layers:
+                                    if str(type(layer_curr)) == "<class 'napari.layers.image.image.Image'>":
+                                        print(layer_curr.data)
+                                        image = layer_curr.data[pyautogui.position()[0]-25:pyautogui.position()[1]+25,pyautogui.position()[0]-25:pyautogui.position()[1]+25]
+                                        new_layer = viewer.add_image(image)
+
+                                #image = np.random.random((100, 100))
+                                #new_layer = viewer.add_image(image)
+
+
+
+        @self.viewer.mouse_move_callbacks.append
+        def update_layer(viewer, event):
+            print('eventxxx',event)
+            #layer.data = np.random.random((512, 512))
+            #print(event.pos)
+            #layer = viewer.layers.selection.active
+            x_coor = round(viewer.cursor.position[0])
+            y_coor = round(viewer.cursor.position[1])
+
+            
+
+            #We first need to find the layer so we loop through all the layers in the viewer
+            for lay_it in viewer.layers:
+                #We only want the layers that are label layers since that's what we want to display
+                if str(type(lay_it)) == "<class 'napari.layers.labels.labels.Labels'>":
+                    #If the layer is of type label AND that it is the one currently selected
+                    if lay_it in viewer.layers.selection:
+                        print(x_coor,y_coor) #print the coordinates of the mouse
+                        #print('mouse track', event.x(), event.y())
+                        print(viewer.layers.selection) #print the name of the currently selected layer
+                        current_layer = lay_it
+                        current_layer_data = current_layer.data #get the data of
+                        if x_coor < 1080 and x_coor > -1 and y_coor < 1080 and y_coor > -1:
+                            cell_mask_number = current_layer.data[x_coor][y_coor]  
+                            if cell_mask_number != 0:
+                                print('data at coordinates (cell mask number)',cell_mask_number)
+                            
+                                #self.x = event.pos().x()
+                                #self.y = event.pos().y()
+                                #p = mapToGlobal(event.pos())
+                                p = QPoint()
+                                #p.setX(x_coor)
+                                #p.setY(y_coor)
+                                p.setX(pyautogui.position()[0])
+                                p.setY(pyautogui.position()[1])
+
+                                #self.x = event.pos().x()
+                                #self.y = event.pos().y()
+
+                                #p = self.mapToGlobal(event.pos())
+
+                                QToolTip.showText(p,'Cell mask number: '+str(cell_mask_number))
+                                
+                                size_of_mask = np.count_nonzero(current_layer.data == cell_mask_number)
+
+                                #ExampleQWidget.set_texts(ExampleQWidget,str(cell_mask_number))
+                                self.l1.setText('Cell mask number: '+str(cell_mask_number))
+                                self.l2.setText('Cell mask size (in pixels):'+str(size_of_mask))
+
+                                #image = np.random.random((100, 100))
+                                #new_layer = viewer.add_image(image)
+
+                                
+                            if cell_mask_number == 0:
+                                self.l1.setText('Currently selected: background')
+                                self.l2.setText('')
+        
         
 
         #w1 = ComboBox(choices=choices, value='two', label='ComboBox:')
@@ -91,46 +217,11 @@ class ExampleQWidget(QWidget):
     def _func(self, viewer):
         print("ffffffffffffffffffff")
 
-    @viewer.mouse_move_callbacks.append
-    def update_layer(self, event):
-        print('eventxxx',event)
-        #layer.data = np.random.random((512, 512))
-        #print(event.pos)
-        #layer = viewer.layers.selection.active
-        x_coor = round(viewer.cursor.position[0])
-        y_coor = round(viewer.cursor.position[1])
+    def set_texts(self, cell_num):
+        self.l1.setText(cell_num)
+        
 
-        #We first need to find the layer so we loop through all the layers in the viewer
-        for lay_it in viewer.layers:
-            #We only want the layers that are label layers since that's what we want to display
-            if str(type(lay_it)) == "<class 'napari.layers.labels.labels.Labels'>":
-                #If the layer is of type label AND that it is the one currently selected
-                if lay_it in viewer.layers.selection:
-                    print(x_coor,y_coor) #print the coordinates of the mouse
-                    #print('mouse track', event.x(), event.y())
-                    print(viewer.layers.selection) #print the name of the currently selected layer
-                    current_layer = lay_it
-                    current_layer_data = current_layer.data #get the data of
-                    if x_coor < 1080 and x_coor > -1 and y_coor < 1080 and y_coor > -1:
-                        cell_mask_number = current_layer.data[x_coor][y_coor]  
-                        if cell_mask_number != 0:
-                            print('data at coordinates (cell mask number)',cell_mask_number)
-                        
-                            #self.x = event.pos().x()
-                            #self.y = event.pos().y()
-                            #p = mapToGlobal(event.pos())
-                            p = QPoint()
-                            #p.setX(x_coor)
-                            #p.setY(y_coor)
-                            p.setX(pyautogui.position()[0])
-                            p.setY(pyautogui.position()[1])
-
-                            #self.x = event.pos().x()
-                            #self.y = event.pos().y()
-
-                            #p = self.mapToGlobal(event.pos())
-
-                            QToolTip.showText(p,str(cell_mask_number))
+    
 
 
                             #QToolTip.showText(p, x_coor)
