@@ -47,5 +47,8 @@ Friday 14/10/2022
 - We had the group meeting on Friday morning (Ivor, Mae, Ekin, Mihaela, Sergey and me). We all presented which took 1h50 (from 9 to 10:50) and we all asked questions about each others projects as Ivor gave some light feedback and questioning.
 
 Wednesday 19/10/2022
-- Made a file to connect to Omero and download the images locally from a plate ID. I downloaded the images from plate id 812 (the one that I used for the JRA) and uploaded them to my OneDrive.
+- Made a file to connect to Omero and download the images locally from a plate ID. I downloaded the images from plate id 812 (the one that I used for the JRA) in Richmond and uploaded them to my OneDrive.
 - Ivor gave some feedback monday on Slack on my project proposal and said that I should actually do the tracking before the classification as otherwise I will be doing the same as Ryan, and the tracking can actually help the classification. I agreed.
+- At the meeting I caught Helfrid up on what I was doing and we discussed the new plan for the project that starts with tracking, Helfrid told me he wanted to see the demo Napari plugin next Monday at 11AM (we set the meeting together) so I want to develop it a little further, maybe add a layer creation or the start of the matching algorithm (but very basic, like just match from the centroids) on a series of micrographs.
+- At the meeting Ivor recommended that, to save resources and because they are so similar in the features they look at (probably), just one CNN should segment, classify and track the cells. Therefore, I started working after the meeting on making a U-Net just to segment the cells for now, its in the u_net_exploration project on my GitHub, I made that project public. I got the inspiration to make the CNN a U-Net as that is what CellPose uses. It does not work yet!
+- As soon as the meeting ended I just worked on trying to make a U-Net
