@@ -37,4 +37,15 @@ Tuesday 11/10/2022
 Wednesday 12/10/2022
 - Continued working on the demo Napari plugin. Added some label information reading that can be viewed on the right hand side of the Napari window when hovering over a label. Also added creating a new layer which is just the labelled cell (and its surroundings as it takes for the crop coordinates the mouse coordinates) when double clicking on its mask.
 - Worked a little bit on the project proposal.
-- Had the weekly Wednesday meeting. I talked about my project, the project propsal I have to give back soon, the upcoming interim repport, my plan (first work on cell classification, then tracking), my demo Napari plugin and how my exploration there is done for now, and Ivor gave some recommendations about just using the Omero images I can download for now as fighting with ITS is not the priority (since they haven't answered my emails about getting Omero installed in Chichester labs and apparently are swarmed right now).
+- Had the weekly Wednesday meeting. I talked about my project, the project propsal I have to give back soon, the upcoming interim report, my plan (first work on cell classification, then tracking), my demo Napari plugin and how my exploration there is done for now, and Ivor gave some recommendations about just using the Omero images I can download for now as fighting with ITS is not the priority (since they haven't answered my emails about getting Omero installed in Chichester labs and apparently are swarmed right now).
+
+Thursday 13/10/2022
+- I finished and sent the first version of the project proposal to Ivor and Helfrid.
+- I made the presentation (once again adapted from the JRA presenation I had to make for Ivor's PhD group) for friday morning's meeting.
+
+Friday 14/10/2022
+- We had the group meeting on Friday morning (Ivor, Mae, Ekin, Mihaela, Sergey and me). We all presented which took 1h50 (from 9 to 10:50) and we all asked questions about each others projects as Ivor gave some light feedback and questioning.
+
+Wednesday 19/10/2022
+- Made a file to connect to Omero and download the images locally from a plate ID. I downloaded the images from plate id 812 (the one that I used for the JRA) and uploaded them to my OneDrive.
+- Ivor gave some feedback monday on Slack on my project proposal and said that I should actually do the tracking before the classification as otherwise I will be doing the same as Ryan, and the tracking can actually help the classification. I agreed.
