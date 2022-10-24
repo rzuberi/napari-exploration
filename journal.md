@@ -55,5 +55,5 @@ Wednesday 19/10/2022
 
 Monday 24/20/2022
 - Worked on the Napari demo plugin to make the 'single out the cell by double clicking on the mask' actually work and a centroid calculator that also creates a 'points' layer that just shows the centroids of all of the cells.
-- Showed the demo Napari plugin to Helfrid and he was happy. He told me more about how he would like the PCNA to be tracked over time to see if we can get some information there about the cell cycle phases. He also presented me to some members of his lab such as Ron.
+- Showed the demo Napari plugin to Helfrid and he was happy. He told me more about how he would like the PCNA to be tracked over time to see if we can get some information there about the cell cycle phases. He also presented me to some members of his lab such as Ron. Also there is no Wednesday meeting as Ivor is not here and I met with Helfrid today, I should probably tell Ryan.
 - I worked on the PCNA measurement python file which for now only reads the images, singles out the cells and gets their centroids. I need it to get all the images and their mask, get all of their individual cells singled out and then with their centroids do a distance comparison to match up the cells and measure their PCNA (average pixel intensity) and map the change over the 180 images.
