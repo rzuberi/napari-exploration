@@ -72,9 +72,9 @@ class ExampleQWidget(QWidget):
         #QToolTip.setFont(QFont('SansSerif', 10))
         #self.setToolTip('This is a <b>QWidget</b> widget')
 
-        #btn = QPushButton("Click me!")
-        #btn.setToolTip('This is a <b>QPushButton</b> widget')
-        #btn.clicked.connect(self._on_click)
+        btn = QPushButton("Centroid layer")
+        btn.setToolTip('Get a new points layer with all of the centroids')
+        btn.clicked.connect(self._on_click)
 
         self.l1 = QLabel(self)
         self.l1.setText("No cell mask selected")
@@ -83,10 +83,14 @@ class ExampleQWidget(QWidget):
         self.l2 = QLabel(self)
         self.l2.setText("")
 
+        self.l3 = QLabel(self)
+        self.l3.setText("")
+
         self.setLayout(QVBoxLayout())
-        #self.layout().addWidget(btn)
+        self.layout().addWidget(btn)
         self.layout().addWidget(self.l1)
         self.layout().addWidget(self.l2)
+        self.layout().addWidget(self.l3)
 
         layer = viewer.layers.selection.active
         
@@ -100,8 +104,8 @@ class ExampleQWidget(QWidget):
 
             for lay_it in viewer.layers:
                 #We only want the layers that are label layers since that's what we want to display
-                print(str(type(viewer.layers[0])))
-                print(str(type(viewer.layers[1])))
+                print('viewer layers 0:', str(type(viewer.layers[0])))
+                print('viewer layers 1:', str(type(viewer.layers[1])))
                 if str(type(lay_it)) == "<class 'napari.layers.labels.labels.Labels'>":
                     #If the layer is of type label AND that it is the one currently selected
                     if lay_it in viewer.layers.selection:
@@ -141,7 +145,14 @@ class ExampleQWidget(QWidget):
                                 for layer_curr in viewer.layers:
                                     if str(type(layer_curr)) == "<class 'napari.layers.image.image.Image'>":
                                         print(layer_curr.data)
-                                        image = layer_curr.data[pyautogui.position()[0]-25:pyautogui.position()[1]+25,pyautogui.position()[0]-25:pyautogui.position()[1]+25]
+                                        #image = layer_curr.data[pyautogui.position()[1]-100:pyautogui.position()[1]+100,pyautogui.position()[0]-100:pyautogui.position()[0]+100]
+                                        print('crop coor',str(pyautogui.position()[1]-100),str(pyautogui.position()[1]+100),str(pyautogui.position()[0]-100),str(pyautogui.position()[0]+100))
+                                        print('crop coor viwer',str(viewer.cursor.position[1]-100),str(viewer.cursor.position[1]+100),str(viewer.cursor.position[0]-100),str(viewer.cursor.position[0]+100))
+                                        #image = layer_curr.data[round(viewer.cursor.position[1])-100:round(viewer.cursor.position[1])+100,round(viewer.cursor.position[0])-100:round(viewer.cursor.position[0])+100]
+                                        image = layer_curr.data[round(viewer.cursor.position[0])-100:round(viewer.cursor.position[0])+100,round(viewer.cursor.position[1])-100:round(viewer.cursor.position[1])+100]
+
+                                        print('image',image)
+
                                         new_layer = viewer.add_image(image)
 
                                 #image = np.random.random((100, 100))
@@ -151,7 +162,15 @@ class ExampleQWidget(QWidget):
 
         @self.viewer.mouse_move_callbacks.append
         def update_layer(viewer, event):
-            print('eventxxx',event)
+
+
+            def centeroidnp(arr):
+                length = arr.shape[0]
+                sum_x = np.sum(arr[:, 0])
+                sum_y = np.sum(arr[:, 1])
+                return sum_x/length, sum_y/length
+
+            #print('eventxxx',event)
             #layer.data = np.random.random((512, 512))
             #print(event.pos)
             #layer = viewer.layers.selection.active
@@ -194,9 +213,21 @@ class ExampleQWidget(QWidget):
                                 
                                 size_of_mask = np.count_nonzero(current_layer.data == cell_mask_number)
 
+                                #get the coordinates of every time the number appears
+                                #coordinates_of_val = np.array([(coords1,coords0) for coords0, coords1 in np.argwhere(current_layer.data == np.max(np.max(current_layer.data)))])
+                                #print(coordinates_of_val)
+                                #coordinates_of_val = np.where(current_layer.data == cell_mask_number)
+                                coordinates_of_val = np.argwhere(current_layer.data == cell_mask_number)
+                                print('coordinates of val',coordinates_of_val)
+                                #coordinates_of_val_tuple = tuple(zip(*coordinates_of_val))
+                                centroid_of_mask = centeroidnp(coordinates_of_val)
+                                print('centroid_of_mask',centroid_of_mask)
+
                                 #ExampleQWidget.set_texts(ExampleQWidget,str(cell_mask_number))
                                 self.l1.setText('Cell mask number: '+str(cell_mask_number))
                                 self.l2.setText('Cell mask size (in pixels):'+str(size_of_mask))
+                                self.l3.setText('Cell mask centroid: '+str(round(centroid_of_mask[0])) + ' ' + str(round(centroid_of_mask[1])))
+
 
                                 #image = np.random.random((100, 100))
                                 #new_layer = viewer.add_image(image)
@@ -205,14 +236,54 @@ class ExampleQWidget(QWidget):
                             if cell_mask_number == 0:
                                 self.l1.setText('Currently selected: background')
                                 self.l2.setText('')
+                                self.l3.setText('')
         
         
 
         #w1 = ComboBox(choices=choices, value='two', label='ComboBox:')
 
+    def centeroidnp(arr):
+                length = arr.shape[0]
+                sum_x = np.sum(arr[:, 0])
+                sum_y = np.sum(arr[:, 1])
+                return sum_x/length, sum_y/length
+
     def _on_click(self):
         print("napari has", len(self.viewer.layers), "layers")
         print("layers:",self.viewer.layers)
+
+        def centeroidnp(arr):
+            length = arr.shape[0]
+            sum_x = np.sum(arr[:, 0])
+            sum_y = np.sum(arr[:, 1])
+            return sum_x/length, sum_y/length
+
+        for lay_it in viewer.layers:
+                #We only want the layers that are label layers since that's what we want to display
+                if str(type(lay_it)) == "<class 'napari.layers.labels.labels.Labels'>":
+                    #If the layer is of type label AND that it is the one currently selected
+                    if lay_it in viewer.layers.selection:
+                        current_layer = lay_it
+                        current_layer_data = current_layer.data #get the data of
+        
+        # get all the unique numbers of the mask layer (exclude 0)
+        cell_numbers = np.unique(current_layer.data)
+
+        # get all the centroids in an array of tuples
+        centroids = []
+        for cell_mask_number in cell_numbers[1:]:
+            coordinates_of_val = np.argwhere(current_layer.data == cell_mask_number)
+            #print('coordinates of val',coordinates_of_val)
+            #coordinates_of_val_tuple = tuple(zip(*coordinates_of_val))
+            centroid_of_mask = centeroidnp(coordinates_of_val)
+            centroids.append(centroid_of_mask)
+
+        points = np.array(centroids)
+        points_layer = viewer.add_points(points, size=15)
+
+        # create a new layer called 'centroids'
+
+        # place all the centroids on the new points layer
 
     def _func(self, viewer):
         print("ffffffffffffffffffff")
