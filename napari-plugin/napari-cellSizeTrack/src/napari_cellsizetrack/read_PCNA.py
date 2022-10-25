@@ -88,9 +88,49 @@ print(len(centeroids_per_mask[0]))
 print(len(centeroids_per_mask[1]))
 print(len(centeroids_per_mask[2]))
 
-ids = centeroids_per_mask[1][np.argmin(distance.cdist(centeroids_per_mask[2], centeroids_per_mask[1][:,:-1]),axis=1)][:,-1]
-new_arr = np.hstack([centeroids_per_mask[2],ids.reshape(-1,1)])
+#for i in range(len(centeroids_per_mask[0])):
+    
 
-print(centeroids_per_mask[1])
-print(centeroids_per_mask[2])
-print(new_arr)
+#ids = centeroids_per_mask[1][np.argmin(distance.cdist(centeroids_per_mask[2], centeroids_per_mask[1][:,:-1]),axis=1)][:,-1]
+#new_arr = np.hstack([centeroids_per_mask[2],ids.reshape(-1,1)])
+
+#print(centeroids_per_mask[1])
+#print(centeroids_per_mask[2])
+#print(new_arr)
+
+def match_points(points1, points2):
+    matched_points = []
+    for i in range(len(points1)):
+        all_distances_from_point = []
+        for j in range(len(points2)):
+            dist = np.linalg.norm(points1[i] - points2[j])
+            all_distances_from_point.append(dist)
+        index_of_matched_point_from_points_2 = np.argmin(all_distances_from_point)
+        matched_points.append({"index":(1,index_of_matched_point_from_points_2) , "coor":(points1[i],points2[index_of_matched_point_from_points_2])})    
+    return matched_points
+
+pts = np.concatenate((centeroids_per_mask[0],centeroids_per_mask[1]),axis=0)
+spts = pts[pts[:,1].argsort(),]
+counts = np.sum(np.diff(np.all(np.diff(spts,axis=0)==0,1)+0)==1)
+#print('SPTS',spts)
+matched_points = match_points(centeroids_per_mask[0],centeroids_per_mask[1])
+
+for i in range(5):
+    print(matched_points[i])
+#print(matched_points)
+
+print('XXX',matched_points[i]["coor"][0][0])
+print('XXX',matched_points[i]["coor"][0][1])
+print('XXX',matched_points[i]["coor"][1][0])
+print('XXX',matched_points[i]["coor"][1][1])
+
+
+colors = ['b','g','r','c','m','y','k','w']
+
+plt.plot(100,100,color='green')
+for i in range(5):
+    print(colors[i])
+    plt.plot(matched_points[i]["coor"][0][0],matched_points[i]["coor"][0][1])
+    plt.plot(matched_points[i]["coor"][1][0],matched_points[i]["coor"][1][1])
+plt.show()
+# would be better to display them in a plot where matched points have the same color really
