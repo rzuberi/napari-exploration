@@ -12,3 +12,7 @@ And why Napari? Because its a popular, open-source, emerging and popular python 
 I think I can discard the "segmenting out" napari plugin development because CellPose2 already creates the segementation mask quite well. I could provide further features for a segmentation plugin such as:
 - "only look at this cell" which takes the CellPose2 segmentation of a cell and discards everything in the micrograph apart from what the mask found
 - "label this cell" where you can hover over a cell and select it to manually label it (such as cell class, even if it would not be very useful to label it this way since more data needs to be known then just looking at it). It could also just give some numbers about that mask (such as intensity of the different masks)
+
+# When setting up Omero
+- The portal address is the following: bond.sussex.ac.uk
+- The Omero database address if the following: ome2.hpc.sussex.ac.uk
