@@ -8,6 +8,7 @@ import numpy as np
 import tifffile
 from tifffile import imread
 from matplotlib import pyplot as plt
+from matplotlib.widgets import Slider
 import cellpose
 from cellpose import models, core
 import PIL
@@ -23,11 +24,26 @@ def import_cell_images(path,num_images):
     images = []
     for i in range(num_images):
         if i % 50 == 0: print(str(i+1)+"/180")
-        path_to_img = path + str(i) + '.tif'
+        path_to_img = path + str(i) + '.tiff'
         images.append(np.squeeze(imread(path_to_img)))
     return np.array(images)
 
-images = import_cell_images(os.getcwd() + '\Example_imgs\data\images\\', 3)
+images = import_cell_images(os.getcwd() + '\Example_imgs\data_to_upload2\serie0\\', 3)
+print('SSSSS',images.shape)
+
+def display_with_slider(images):
+    fig, ax = plt.subplots()
+    axcolor = 'yellow'
+    ax_slider = plt.axes([0.20, 0.01, 0.65, 0.03], facecolor=axcolor)
+    slider = Slider(ax_slider, 'Slide->', 0, len(images)-1, valinit=0)
+    def update(val):
+        val = int(np.round(val))
+        ax.imshow(images[val])
+        fig.canvas.draw_idle()
+    slider.on_changed(update)
+    plt.show()
+
+#display_with_slider(images)
 
 #CREATE AND SAVE MASKS
 def create_masks_and_save(path, images):
@@ -36,10 +52,10 @@ def create_masks_and_save(path, images):
     for i in range(len(images)):
         mask, flows, styles, diams = model.eval(images[i], diameter=None, flow_threshold=None, channels=channels)
         result = Image.fromarray(mask.astype(np.uint8))
-        path_to_save = os.getcwd() + '\Example_imgs\data\masks\\' + str(i) + '.tif'
+        path_to_save = path + str(i) + '.tif'
         result.save(path_to_save)
 
-#create_masks_and_save(os.getcwd() + '\Example_imgs\data\masks\\', images)
+#create_masks_and_save(os.getcwd() + '\Example_imgs\data_to_upload2\serie0_masks\\', images)
 
 #IMPORT MASKS
 def import_masks(path,num_masks):
@@ -49,7 +65,8 @@ def import_masks(path,num_masks):
         masks.append(np.squeeze(imread(path_to_mask)))
     return masks
 
-masks = import_masks(os.getcwd() + '\Example_imgs\data\masks\\', 3)
+masks = import_masks(os.getcwd() + '\Example_imgs\data_to_upload2\serie0_masks\\', 3)
+#display_with_slider(masks)
 
 
 # GET AN ARRAY OF ARRAYS THAT CONTAINS (IN EACH ARRAY) A SINGLED OUT CELL FROM EACH IMAGE
@@ -111,8 +128,8 @@ def match_images(centeroids_per_mask):
         all_matched_points.append(matched_points)
     #Right now it is of size 2, so we really only have to do 1 comparison
     #For each points in the second part of the first array, check if there is an equal one in the first part of the second array
+    all_pairs = []
     for i in range(len(all_matched_points[0])):
-        all_pairs = []
         first_array_second_coor = all_matched_points[0][i]['coor'][1]
         #loop through second array's first coor until you find a match
         all_points_in_second_arr_first_coor = []
@@ -120,12 +137,18 @@ def match_images(centeroids_per_mask):
             if all_matched_points[1][j]['coor'][0][0] == first_array_second_coor[0] and all_matched_points[1][j]['coor'][0][1] == first_array_second_coor[1]:
                 pair = (all_matched_points[0][i]['coor'],all_matched_points[1][j]['coor'])
                 all_pairs.append(pair)
+    return all_pairs
 
 all_pairs = match_images(centeroids_per_mask)
+print('XXXX',centeroids_per_mask.shape)
+for i in range(len(all_pairs)):
+    print(all_pairs[i])
 
-#matched_points = match_points(centeroids_per_mask[0],centeroids_per_mask[1])
+matched_points = match_points(centeroids_per_mask[0],centeroids_per_mask[1])
 
+##TODO: a function that would display only the centroids of the cells per image with a slider to get to the next image but each centroid (which is just the point) has the color of the other centroids it was matched with
 
+#print(matched_points)
 
 #for i in range(len(matched_points)):
 #    print(matched_points[i])
@@ -145,8 +168,9 @@ all_pairs = match_images(centeroids_per_mask)
 #colors = ['b','g','r','c','m','y','k','w']
 #plt.plot(100,100,'bo')
 #plt.show()
-#for i in range(len(matched_points)-1):
-#    print(colors[i])
+#print('leeeennn',len(matched_points))
+#for i in range(8):
+    #print(colors[i % len(matched_points)])
 #    plt.plot(matched_points[i]["coor"][0][0],matched_points[i]["coor"][0][1], 'bo', color=colors[i])
 #    plt.plot(matched_points[i]["coor"][1][0],matched_points[i]["coor"][1][1], 'bo', color=colors[i])
 #plt.xlim([0,1080])

@@ -30,15 +30,15 @@ def save_plate_locally(plate_id):
 
     for i in range(len(image_ids)):
         print(str(i) + '/' + str(len(image_ids)))
-        os.makedirs(os.getcwd() + '\Example_imgs\data_to_upload\\serie' + str(i) + '\\')
+        os.makedirs(os.getcwd() + '\Example_imgs\data_to_upload2\\serie' + str(i) + '\\')
         image_from_omero = ezomero.get_image(conn,image_id=image_ids[i])
         for j in range(image_from_omero[1].shape[0]):
-            result = Image.fromarray(image_from_omero[1][i][0].reshape(1080,1080).astype(np.uint16))
-            path_to_save = os.getcwd() + '\Example_imgs\data_to_upload\\serie' + str(i) + '\\' + str(j) + '.tiff'
+            result = Image.fromarray(image_from_omero[1][j][0].reshape(1080,1080).astype(np.uint16))
+            path_to_save = os.getcwd() + '\Example_imgs\data_to_upload2\\serie' + str(i) + '\\' + str(j) + '.tiff'
             result.save(path_to_save)
-        #if i == 3: break
+        if i == 1: break
 
-#save_plate_locally(449)
+save_plate_locally(449)
 
 def import_cell_images(path,num_images):
     images = []
