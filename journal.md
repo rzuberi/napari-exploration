@@ -81,3 +81,11 @@ Friday 28/10/2022
 
 Monday 31/10/2022
 - Working on interim report, made the sections and a few notes for most of them. Got to 871 words. Tomorrow should be the big day for writing everything out, should reach 3000 words. I will make most of the diagrams on Wednesday I think.
+
+Thursday 24/11/2022
+- Worked on the U-Net and got it to distill CellPose quite efficiently.
+
+Friday 25/11/2022
+- Group meeting with Ivor and his other 3rd year project students where he gave me some advice on the U-Net such as using random crops and switching to residual crops.
+- Individual meeting with Helfrid where he gave me some ideas about skipping the classification and new data that was coming in. We talked about integrating the tracking directly into the U-Net and predicting other markers.
+- I worked on getting random crops from 10 to 250 pixels to train the U-Net with (all padded to 250x250). I started remaking the U-Net from the architecture I was using for the full image (the day before) but ran into some errors with the number of channels. I might start it from scratch again.
