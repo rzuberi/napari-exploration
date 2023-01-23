@@ -105,3 +105,12 @@ Wednesday 07/12/2022
 
 Thursday 08/12/2022
 - Worked on the unet loss. Tried the dice+BCE loss and that is what works best for now, not perfect but close to getting good masks. I just need to try diceTimesBCE to see what that does. That is what I will be showing tomorrow morning at the meeting.
+
+Sunday 15/01/2023
+- Worked on the unet, started a new py file called "unet_clean.py" to not work from a notebook and not have all the kept unused code the notebook ("u_net_exp.ipynb") I was using had. But I need to keep this notebook because it has a lot of code of loss functions adapted to this model even though it still produces blank data.
+
+Monday 16/01/2023
+- Had a meeting with Helfrid and Ivor to discuss where the model currently was at. I told Ivor I would ask him for some code review on my unet soon. Helfrid told me about some new cell images coming in that are easier to classify in their cell cycle phases now. I told them that I am taking two more weeks to work on the unet then starting to work on tracking.
+
+Monday 23/01/2023
+- Uploaded the code of the u_net_exp.py, u_net_clean.py files and the 20 first masks of plate 812 micrographs to GitHub.
