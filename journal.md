@@ -114,3 +114,8 @@ Monday 16/01/2023
 
 Monday 23/01/2023
 - Uploaded the code of the u_net_exp.py, u_net_clean.py files and the 20 first masks of plate 812 micrographs to GitHub.
+
+Tuesday 24/01/2023
+- Found out that it's the sigmoid activation layer then the 0.5 thresholding that is making me have only blank results. In a segmentation model, there is no need to have an activation layer. The preditctions from the model are between 0 and 0.4 and sometimes negative but never really far from each other when comparing what is labelled as the background and what is labelled as the cells, still they can be seen visually in the predictions.
+- In the group meeting I explained where I currently was and Ivor recommended that I just compare the results I get to the results to before the activation layer in Cellpose. Cellpose is in PyTorch so I should be able to access the model's products by calling its layers, that is my next step.
+- Also, Ivor would like for me to present how Cellpose's model works for next week's meeting, so I have to work on that.
