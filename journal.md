@@ -130,3 +130,8 @@ Wednesday 25/01/22
 Thursday 26/01/22
 - Worked on the unet to make it predict the logits from cellpose. It seems that the model is not training at all as the loss is not decreasing. I made some changes to it and tried to find workarounds but for now after a check with Sergey he recommends checking what the output without doing any training.
 - I quickly checked out Weights and Biases and its very cool so will definitely look into implementing that into my next model building.
+
+Friday 27/01/22
+- Worked on the unet. Found out why it was not training: I had set the loss to be a Variable(loss, requires_autograd=True) before doing the step and after calculating it therefore it detached it which meant the gradients were never calculated.
+- Solved the interpolation that gave a zooming effect to the predictions by changing the kernel size of the convolutions from 4 to 3 and padding of the convolutions from 0 to 1, now the input and outputs are the same. I need to check if the cropping of the features still happens now as that was actually a recommendation from Ivor and he said that I should pad the convolutions (which I am doing now) and should remove the cropping (from a meeting in December) which I guess both are linked.
+- The predictions are good now but I still need to find the treshold to binarise them, need to look into how Cellpose does it (with a centered sigmoid if I recall correctly).
